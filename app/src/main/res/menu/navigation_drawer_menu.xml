@@ -17,7 +17,7 @@
         android:id="@+id/fragmentAbout"
         android:checkable="true"
         android:icon="@drawable/ic_security"
-        android:title="password" />
+        android:title="about" />
 
 
 </menu>

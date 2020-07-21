@@ -1,13 +1,17 @@
 package com.example.navigationdrawerwithnavigationcomponent
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
+import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var navController: NavController
 
@@ -20,6 +24,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavigationController() {
+
+        setSupportActionBar(toolbar)
+
+        val drawerToggle =
+            ActionBarDrawerToggle(
+                this@MainActivity,
+                drawerLayout,
+                toolbar,
+                R.string.drawer_open,
+                R.string.drawer_close
+            )
+
+        drawerLayout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+
+        toolbar.setNavigationOnClickListener(this@MainActivity)
+
 
         /**
          * with these two lines below navigation drawer work with swipe
@@ -35,6 +56,7 @@ class MainActivity : AppCompatActivity() {
          */
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
 
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -43,5 +65,23 @@ class MainActivity : AppCompatActivity() {
             drawerLayout
         )
     }
+
+
+
+    override fun onClick(v: View?) {
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
+            drawerLayout.closeDrawer(Gravity.RIGHT)
+        else
+            drawerLayout.openDrawer(Gravity.RIGHT)
+    }
+
+    override fun onBackPressed() {
+
+        if (drawerLayout.isDrawerOpen(GravityCompat.END))
+            drawerLayout.closeDrawer(GravityCompat.END)
+        else
+            super.onBackPressed()
+    }
+
 
 }
